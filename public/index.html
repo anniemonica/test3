@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <script>
+            async function getData () {
+                console.log("Nu hämtar vi data här...")
+                const res = await fetch("/news", {method: 'get'});
+        
+                const data = await res.json();
+                
+                const html = data.articles.map(entry => `
+                    <tr>
+                       <td> <h3>${entry.title}</h3> </td>
+                       <td> <p>${entry.description}</p> </td>
+                       <td> <a href="${entry.url}">Länk</a> </td>
+                       <td> <img src="${entry.urlToImage}"/> </td>
+                        
+                    
+                
+                       
+                    </tr>`).join('');
+                document.getElementById('databody').innerHTML = html;
+                console.log(data.message);
+                return data;
+            }
+        </script>
+    </head>
+    <body>
+        <form method="POST" action="/">
+            <button id="btnGo" type="submit" style="background-color: fuchsia;" style="font-size:50px;">Tryck!</button>
+            <a onclick="getData()">Tryck!</a>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Titel</th>
+                    <th>Beskrivning</th>
+                    <th>Länk</th>
+                    <th>Bild</th>
+            
+                 </tr>
+            </thead>
+            <tbody id="databody"></tbody>
+        </table>
+    </body>
+</html>
